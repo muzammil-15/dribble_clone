@@ -1,17 +1,26 @@
-import { NavLinks } from "@/constant";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import AuthProviders from "./AuthProviders";
+
+import { NavLinks } from "@/constant";
 import { getCurrentUser } from "@/lib/session";
 
-const Navbar = async() => {
-    const session = await getCurrentUser();
+import AuthProviders from "./AuthProviders";
+// import Button from "./Button";
+// import ProfileMenu from "./ProfileMenu";
+
+const Navbar = async () => {
+  const session = await getCurrentUser()
+
   return (
-    <nav className="flexBetween navbar">
-      <div className="flex-1 flexStart gap-10">
-        <Link href="/">
-          <Image src="/logo.svg" width={116} height={43} alt="logo" />
+    <nav className='flexBetween navbar'>
+      <div className='flex-1 flexStart gap-10'>
+        <Link href='/'>
+          <Image
+            src='/logo.svg'
+            width={116}
+            height={43}
+            alt='logo'
+          />
         </Link>
         <ul className='xl:flex hidden text-small gap-7'>
           {NavLinks.map((link) => (
@@ -21,21 +30,14 @@ const Navbar = async() => {
           ))}
         </ul>
       </div>
+
       <div className='flexCenter gap-4'>
         {session?.user ? (
           <>
             {/* <ProfileMenu session={session} /> */}
-            {session?.user?.image && (<Image
-              src={session.user.image}
-              width={40}
-              height={40}
-              className="rounded-full"
-              alt={session.user.name}
-            />)}
 
             <Link href="/create-project">
               {/* <Button title='Share work' /> */}
-              Share Work
             </Link>
           </>
         ) : (

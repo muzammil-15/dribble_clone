@@ -1,5 +1,5 @@
 import Image from 'next/image'
-
+//kk
 export default function Home() {
   return (
     <section className="flex-start flex-col paddings mb-16">
