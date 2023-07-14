@@ -1,19 +1,29 @@
-"use client";
-
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import { categoryFilters } from "@/constant";
 
-const Categories = () => {
+const Categories = ({ category }) => {
   const router = useRouter();
-  const pathName = usePathname();
-  const searchParams = useSearchParams();
 
-  const category = searchParams.get("category");
-
-  const handleTags = (item: string) => {
-    router.push(`${pathName}?category=${item}`);
+  const handleTags = (item) => {
+    router.push({
+      pathname: router.pathname,
+      query: { category: item },
+    });
   };
+
+  useEffect(() => {
+    // Fetch the category value on the server-side if necessary
+    // Example: const category = fetchCategoryFromServer();
+
+    // Ensure that the client-side router has the correct query parameter
+    if (category) {
+      router.replace({
+        pathname: router.pathname,
+        query: { category },
+      });
+    }
+  }, [category, router]);
 
   return (
     <div className="flexBetween w-full gap-5 flex-wrap">
@@ -35,6 +45,20 @@ const Categories = () => {
       </ul>
     </div>
   );
+};
+
+export const getServerSideProps = async (context) => {
+  const { query } = context;
+  const { category } = query;
+
+  // Perform any necessary server-side data fetching or computations
+  // Example: const category = fetchCategoryFromServer();
+
+  return {
+    props: {
+      category,
+    },
+  };
 };
 
 export default Categories;
